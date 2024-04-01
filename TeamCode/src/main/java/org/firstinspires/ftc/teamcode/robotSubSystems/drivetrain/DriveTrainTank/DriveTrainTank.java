@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.AutoDrive;
-import org.firstinspires.ftc.teamcode.OrbitUtils.Vector;
 
 public class DriveTrainTank {
         private static final DcMotor[] motors = new DcMotor[2];
@@ -30,7 +28,7 @@ public class DriveTrainTank {
             }
             drive = 0;
             omega = 0;
-//        autoDrive.init(hardwareMap);
+
         }
 
 
