@@ -12,12 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Delay;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.robotSubSystems.elevator.Elevator;
-import org.firstinspires.ftc.teamcode.robotSubSystems.elevator.ElevatorStates;
-import org.firstinspires.ftc.teamcode.robotSubSystems.fourbar.Fourbar;
-import org.firstinspires.ftc.teamcode.robotSubSystems.fourbar.FourbarState;
-import org.firstinspires.ftc.teamcode.robotSubSystems.intake.Intake;
-import org.firstinspires.ftc.teamcode.robotSubSystems.outtake.Outtake;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 // Red far = 1
@@ -151,10 +145,6 @@ public abstract class AutonomousGenaral extends LinearOpMode {
         time.reset();
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPos);
-        Elevator.init(hardwareMap);
-        Fourbar.init(hardwareMap);
-        Intake.init(hardwareMap);
-        Outtake.init(hardwareMap);
     }
 
     //the position of the prop is defined like this:

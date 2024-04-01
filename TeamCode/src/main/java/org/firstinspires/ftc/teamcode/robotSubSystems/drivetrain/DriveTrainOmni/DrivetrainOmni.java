@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain;
+package org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,13 +10,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Vector;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
-import org.firstinspires.ftc.teamcode.robotSubSystems.RobotState;
-import org.firstinspires.ftc.teamcode.robotSubSystems.SubSystemManager;
 
-public class Drivetrain {
+public class DrivetrainOmni {
 
     public static final DcMotor[] motors = new DcMotor[4];
-    public static float driveFactor = DrivetrainConstants.power;
+    public static float driveFactor = DrivetrainOmniConstants.power;
     private static Pose2d pose;
     public static Vector lastPosition;
     // equal to the last Autonomous position?
@@ -45,7 +43,7 @@ public class Drivetrain {
     public static void operate(final Vector velocity_W, float omega , Telemetry telemetry, Gamepad gamepad1) {
         final float robotAngle = (float) Math.toRadians(OrbitGyro.getAngle());
         final Vector velocity_RobotCS_W = velocity_W.rotate(-robotAngle);
-            driveFactor = DrivetrainConstants.power;
+            driveFactor = DrivetrainOmniConstants.power;
 
 
         if(velocity_RobotCS_W.norm() <= Math.sqrt(0.005) && Math.abs(omega) == 0) stop();

@@ -27,9 +27,6 @@ public class LocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Elevator.init(hardwareMap);
-        Fourbar.init(hardwareMap);
-        Outtake.init(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
@@ -44,12 +41,7 @@ public class LocalizationTest extends LinearOpMode {
             );
 
             drive.update();
-            if (gamepad1.a){
-                Elevator.operateAutonomous(ElevatorStates.AUTO , telemetry);
-                Fourbar.operateAutonomous(FourbarState.MOVE);
-                if (gamepad1.left_bumper)Outtake.operate(OuttakeState.TOWOUT);
-                if (gamepad1.right_bumper)Outtake.operate(OuttakeState.CLOSED);
-                }
+
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());

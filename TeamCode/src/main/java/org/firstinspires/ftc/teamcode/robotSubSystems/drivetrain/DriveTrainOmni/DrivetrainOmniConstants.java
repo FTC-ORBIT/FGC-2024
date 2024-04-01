@@ -1,6 +1,6 @@
-package org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain;
+package org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni;
 
-public class DrivetrainConstants {
+public class DrivetrainOmniConstants {
     public static final float trackWidth = 0.418f;
     public final static float forward_offset = -0.2f;
     public final static float deadWheelDiameter = 0.035f;

@@ -16,7 +16,8 @@ import org.firstinspires.ftc.teamcode.robotData.GlobalData;
 import org.firstinspires.ftc.teamcode.robotSubSystems.OrbitLED;
 import org.firstinspires.ftc.teamcode.robotSubSystems.RobotState;
 import org.firstinspires.ftc.teamcode.robotSubSystems.SubSystemManager;
-import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.Drivetrain;
+import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni;
+import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainTank.DriveTrainTank;
 
 
 @Config
@@ -38,7 +39,8 @@ public class Robot extends LinearOpMode {
 
         ElapsedTime robotTime = new ElapsedTime();
         robotTime.reset();
-        Drivetrain.init(hardwareMap);
+        DrivetrainOmni.init(hardwareMap);
+//        DriveTrainTank.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
 //         OrbitLED.init(hardwareMap);
 //        OrbitColorSensor.init(hardwareMap);
@@ -64,7 +66,8 @@ public class Robot extends LinearOpMode {
 //          final boolean placing = SubSystemManager.wanted.equals(RobotState.MIN) || SubSystemManager.wanted.equals(RobotState.LOW) || SubSystemManager.wanted.equals(RobotState.MID);
           Vector leftStick = new Vector(gamepad1.left_stick_x, -gamepad1.left_stick_y);
           float omega = gamepad1.right_trigger - gamepad1.left_trigger;
-          Drivetrain.operate(leftStick,  omega , telemetry , gamepad1);
+          DrivetrainOmni.operate(leftStick,  omega , telemetry , gamepad1);
+//          DriveTrainTank.operate(-gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
           SubSystemManager.setSubsystemToState(gamepad1 , gamepad2 , telemetry);
 //          OrbitLED.operate(OrbitColorSensor.color);
            GlobalData.deltaTime = GlobalData.currentTime - GlobalData.lastTime;
