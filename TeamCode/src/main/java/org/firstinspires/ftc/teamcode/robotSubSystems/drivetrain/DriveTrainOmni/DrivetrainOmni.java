@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.DriveByAprilTags.RobotAutoDriveToAprilTagOmni;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Vector;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
@@ -103,6 +104,8 @@ public class DrivetrainOmni {
         motors[1].setPower(driveFactor * (rfPower / highestPower));
         motors[2].setPower(driveFactor * (lbPower / highestPower));
         motors[3].setPower(driveFactor * (rbPower / highestPower));
+
+
 
     }
 
