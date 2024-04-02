@@ -14,7 +14,8 @@ import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
 import org.firstinspires.ftc.teamcode.robotSubSystems.RobotState;
 import org.firstinspires.ftc.teamcode.robotSubSystems.SubSystemManager;
-import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.Drivetrain;
+import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni;
+import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainTank.DriveTrainTank;
 import org.opencv.android.FpsMeter;
 
 @Config
@@ -30,13 +31,12 @@ public class Test extends LinearOpMode {
 
         ElapsedTime robotTime = new ElapsedTime();
         robotTime.reset();
-        Drivetrain.init(hardwareMap);
+        DrivetrainOmni.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
 //         OrbitLED.init(hardwareMap);
         OrbitColorSensor.init(hardwareMap);
 
         OrbitGyro.resetGyroStartTeleop((float) Math.toDegrees(PoseStorage.currentPose.getHeading()));
-        telemetry.update();
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.addData("lastAngle", OrbitGyro.lastAngle);
         telemetry.update();
