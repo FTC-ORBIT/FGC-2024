@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.DriveByAprilTags.Camera;
 import org.firstinspires.ftc.teamcode.DriveByAprilTags.RobotAutoDriveToAprilTagOmni;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Vector;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitColorSensor;
@@ -34,6 +35,7 @@ public class Test extends LinearOpMode {
         robotTime.reset();
         DrivetrainOmni.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
+        Camera.initAprilTag(hardwareMap,telemetry);
 //         OrbitLED.init(hardwareMap);
 //        OrbitColorSensor.init(hardwareMap);
 
@@ -58,7 +60,7 @@ public class Test extends LinearOpMode {
             Vector leftStick = new Vector(gamepad1.left_stick_x, -gamepad1.left_stick_y);
             float omega = gamepad1.right_trigger - gamepad1.left_trigger;
             DrivetrainOmni.operate(leftStick,  omega , telemetry , gamepad1);
-
+            Camera.update(telemetry);
             }
 
         }
