@@ -1,5 +1,5 @@
 things for the fgc that would help us:
-- do AutoDrive by april tags
+- do AutoDrive by april tags (for omni drive and tank drive)
 - reprogram the sensors: color, distance(from cm to inch - AutoDrive works with inch).
 - use LEDS! help to see the color of the gamePiece, we can combine the color sensor to it.
 - use the magneticSensor to stop the elevator (in Intake).
