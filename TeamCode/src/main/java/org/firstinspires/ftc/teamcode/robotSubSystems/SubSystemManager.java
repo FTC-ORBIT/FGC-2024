@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Delay;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitColorSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
+import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
 
 public class SubSystemManager {
@@ -80,7 +81,13 @@ public class SubSystemManager {
     }
 
     public static void printStates(Telemetry telemetry) {
-
+        telemetry.addData("Robot current state ", SubSystemManager.wanted);
+        telemetry.addData("Robot last state", SubSystemManager.lastState);
+        telemetry.addData("gyro", OrbitGyro.getDAngle());
+        telemetry.addData("lastAngle", OrbitGyro.lastAngle);
+        telemetry.addData("currentTime", GlobalData.currentTime);
+        telemetry.addData("lastTime", GlobalData.lastTime);
+        telemetry.addData("deltaTime",GlobalData.deltaTime);
     }
 }
 

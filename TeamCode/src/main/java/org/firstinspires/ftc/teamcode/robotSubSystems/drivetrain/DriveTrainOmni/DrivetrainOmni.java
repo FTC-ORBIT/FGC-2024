@@ -53,7 +53,7 @@ public class DrivetrainOmni {
         }
         else{
             if(gamepad1.left_bumper){
-                final Pose2d assistAddition = Camera.getAprilTagDetection();
+                final Pose2d assistAddition = Camera.getAprilTagDetectionOmni();
                 drive(velocity_RobotCS_W.add(new Vector((float) -assistAddition.getX(), (float) -assistAddition.getY())), omega - assistAddition.getHeading());
                 telemetry.addLine("got pos");
                 telemetry.update();

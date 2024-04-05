@@ -10,11 +10,13 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 @Config
 public class Camera {
@@ -36,10 +38,13 @@ public class Camera {
     final static double MAX_AUTO_STRAFE= 0.3;   //  Clip the approach speed to this max value (adjust for your robot)
     final static double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private static final int DESIRED_TAG_ID = 6;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    public static final int DESIRED_TAG_ID = 6;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private static VisionPortal visionPortal;               // Used to manage the video source.
     private static AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
-    private static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
+    public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
+    public static double driveTank;
+    public static double turnTank;
+
 
     public static void initAprilTag(HardwareMap hardwareMap, Telemetry telemetry) {
         // Create the AprilTag processor by using a builder.
@@ -128,7 +133,7 @@ public class Camera {
         }
 
 
-        public static Pose2d getAprilTagDetection(){
+        public static Pose2d getAprilTagDetectionOmni(){
         if(targetFound){
             double  rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double  headingError = desiredTag.ftcPose.bearing;
@@ -143,6 +148,7 @@ public class Camera {
             return new Pose2d(0, 0, 0);
         }
         }
+
 
     }
 

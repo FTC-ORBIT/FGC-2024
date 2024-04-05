@@ -57,9 +57,7 @@ public class Test extends LinearOpMode {
 
         while (!isStopRequested()) {
             if (gamepad1.dpad_down) OrbitGyro.resetGyro();
-            Vector leftStick = new Vector(gamepad1.left_stick_x, -gamepad1.left_stick_y);
-            float omega = gamepad1.right_trigger - gamepad1.left_trigger;
-            DrivetrainOmni.operate(leftStick,  omega , telemetry , gamepad1);
+            DriveTrainTank.operate(-gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
             Camera.update(telemetry);
             }
 
