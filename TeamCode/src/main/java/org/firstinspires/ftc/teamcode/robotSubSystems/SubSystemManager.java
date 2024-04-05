@@ -7,17 +7,20 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.DriveByAprilTags.Camera;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Delay;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitColorSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
 import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
+import org.openftc.apriltag.AprilTagDetection;
 
 public class SubSystemManager {
 
     public static RobotState lastState = RobotState.TRAVEL;
 
     public static RobotState wanted = RobotState.TRAVEL;
+    private static AprilTagDetection detection;
 
 
     private static RobotState getState(Gamepad gamepad) {
@@ -88,6 +91,11 @@ public class SubSystemManager {
         telemetry.addData("currentTime", GlobalData.currentTime);
         telemetry.addData("lastTime", GlobalData.lastTime);
         telemetry.addData("deltaTime",GlobalData.deltaTime);
+        if (Camera.targetFound){
+            telemetry.addData("true",detection.id);
+        }else {
+            telemetry.addData("false", detection.id);
+        }
     }
 }
 
