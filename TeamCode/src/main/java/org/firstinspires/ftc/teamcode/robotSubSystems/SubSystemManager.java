@@ -83,7 +83,7 @@ public class SubSystemManager {
     public static void printStates(Telemetry telemetry) {
         telemetry.addData("Robot current state ", SubSystemManager.wanted);
         telemetry.addData("Robot last state", SubSystemManager.lastState);
-        telemetry.addData("gyro", OrbitGyro.getDAngle());
+        telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.addData("lastAngle", OrbitGyro.lastAngle);
         telemetry.addData("currentTime", GlobalData.currentTime);
         telemetry.addData("lastTime", GlobalData.lastTime);
