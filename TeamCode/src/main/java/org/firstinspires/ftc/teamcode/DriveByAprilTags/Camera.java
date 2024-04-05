@@ -116,10 +116,12 @@ public class Camera {
                     } else {
                         // This tag is in the library, but we do not want to track it right now.
                         telemetry.addData("Skipping", "Tag ID %d is not desired", detection.id);
+                        targetFound = false;
                     }
                 } else {
                     // This tag is NOT in the library, so we don't have enough information to track to it.
                     telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
+                    targetFound = false;
                 }
                 telemetry.update();
             }
