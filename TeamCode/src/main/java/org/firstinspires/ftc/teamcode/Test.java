@@ -28,16 +28,14 @@ public class Test extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         FtcDashboard dashboard = FtcDashboard.getInstance();
-//        coneDistanceSensor = hardwareMap.get(DigitalChannel.class, "clawDistanceSensor");
-//        coneDistanceSensor.setMode(DigitalChannel.Mode.INPUT);
+
 
         ElapsedTime robotTime = new ElapsedTime();
         robotTime.reset();
         DrivetrainOmni.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
         Camera.initAprilTag(hardwareMap,telemetry);
-//         OrbitLED.init(hardwareMap);
-//        OrbitColorSensor.init(hardwareMap);
+
 
         OrbitGyro.resetGyroStartTeleop((float) Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
@@ -52,21 +50,18 @@ public class Test extends LinearOpMode {
         GlobalData.hasGamePiece = false;
 
 
-
         waitForStart();
+
+        DriveTrainTank.init(hardwareMap);
 
         while (!isStopRequested()) {
             if (gamepad1.dpad_down) OrbitGyro.resetGyro();
             DriveTrainTank.operate(-gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
             Camera.update(telemetry);
+            SubSystemManager.printStates(telemetry);
             }
 
         }
-
-
-// intake: 0
-// low: 2679 , 2749
-// mid:
-// high: ?
     }
 //dani yalechan!
+// yoel yalechan!

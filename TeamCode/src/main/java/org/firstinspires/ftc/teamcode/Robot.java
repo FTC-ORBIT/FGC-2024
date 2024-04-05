@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainTank.
 @TeleOp(name = "main")
 public class Robot extends LinearOpMode {
 
-    public static DigitalChannel coneDistanceSensor;
+
     public static TelemetryPacket packet;
 
 
@@ -35,8 +35,6 @@ public class Robot extends LinearOpMode {
 
         FtcDashboard dashboard = FtcDashboard.getInstance();
         packet = new TelemetryPacket();
-//        coneDistanceSensor = hardwareMap.get(DigitalChannel.class, "clawDistanceSensor");
-//        coneDistanceSensor.setMode(DigitalChannel.Mode.INPUT);
 
         ElapsedTime robotTime = new ElapsedTime();
         robotTime.reset();
@@ -44,8 +42,6 @@ public class Robot extends LinearOpMode {
 //        DriveTrainTank.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
         Camera.initAprilTag(hardwareMap,telemetry);
-//         OrbitLED.init(hardwareMap);
-//        OrbitColorSensor.init(hardwareMap);
         OrbitGyro.resetGyroStartTeleop((float) Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.update();
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
