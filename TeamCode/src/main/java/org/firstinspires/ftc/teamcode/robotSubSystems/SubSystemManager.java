@@ -20,7 +20,7 @@ public class SubSystemManager {
     public static RobotState lastState = RobotState.TRAVEL;
 
     public static RobotState wanted = RobotState.TRAVEL;
-    private static AprilTagDetection detection;
+
 
 
     private static RobotState getState(Gamepad gamepad) {
@@ -91,11 +91,11 @@ public class SubSystemManager {
         telemetry.addData("currentTime", GlobalData.currentTime);
         telemetry.addData("lastTime", GlobalData.lastTime);
         telemetry.addData("deltaTime",GlobalData.deltaTime);
-        if (Camera.targetFound){
-            telemetry.addData("true",detection.id);
-        }else {
-            telemetry.addData("false", detection.id);
-        }
+//        if (Camera.targetFound){
+//            telemetry.addData("true",detection.id);
+//        }else {
+//            telemetry.addData("false", detection.id);
+//        }
     }
 }
 

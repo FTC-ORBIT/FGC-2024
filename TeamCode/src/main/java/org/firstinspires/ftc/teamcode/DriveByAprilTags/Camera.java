@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.DriveByAprilTags;
 
+import static org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni.motors;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
@@ -10,13 +14,12 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 @Config
 public class Camera {
@@ -25,7 +28,7 @@ public class Camera {
     static double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
     static double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
-    public final static double DESIRED_DISTANCE = 17; //  this is how close the camera should get to the target (inches)
+    public final static double DESIRED_DISTANCE = 24; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -38,7 +41,7 @@ public class Camera {
     final static double MAX_AUTO_STRAFE= 0.3;   //  Clip the approach speed to this max value (adjust for your robot)
     final static double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    public static final int DESIRED_TAG_ID = 6;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    public static final int DESIRED_TAG_ID = 5;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private static VisionPortal visionPortal;               // Used to manage the video source.
     private static AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
@@ -48,7 +51,20 @@ public class Camera {
 
     public static void initAprilTag(HardwareMap hardwareMap, Telemetry telemetry) {
         // Create the AprilTag processor by using a builder.
-        aprilTag = new AprilTagProcessor.Builder().build();
+        aprilTag = new AprilTagProcessor.Builder()
+                .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                .setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
+                .setLensIntrinsics(458.066, 457.626, 337.176, 251.805)
+                .build();
+
+        motors[0] = hardwareMap.get(DcMotor.class, "lf");
+        motors[1] = hardwareMap.get(DcMotor.class, "rf");
+        motors[2] = hardwareMap.get(DcMotor.class, "lb");
+        motors[3] = hardwareMap.get(DcMotor.class, "rb");
+
+        motors[0].setDirection(DcMotorSimple.Direction.FORWARD);
+        motors[1].setDirection(DcMotorSimple.Direction.REVERSE);
+        motors[2].setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Adjust Image Decimation to trade-off detection-range for detection-rate.
         // eg: Some typical detection data using a Logitech C920 WebCam
@@ -142,12 +158,11 @@ public class Camera {
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-            return new  Pose2d(drive,strafe, turn);
+          return new Pose2d(drive,strafe,turn);
         }else {
-            return new Pose2d(0, 0, 0);
+         return new Pose2d(0,0,0);
         }
         }
-
 
     }
 
