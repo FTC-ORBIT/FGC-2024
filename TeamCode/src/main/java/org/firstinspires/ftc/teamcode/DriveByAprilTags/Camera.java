@@ -43,7 +43,7 @@ public class Camera {
     final static double MAX_AUTO_STRAFE= 0.3;   //  Clip the approach speed to this max value (adjust for your robot)
     final static double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    public static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    public static final int DESIRED_TAG_ID = 5;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private static VisionPortal visionPortal;               // Used to manage the video source.
     private static AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
