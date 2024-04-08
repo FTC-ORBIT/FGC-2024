@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.DriveByAprilTags;
 
 import static org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni.motors;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -41,7 +43,7 @@ public class Camera {
     final static double MAX_AUTO_STRAFE= 0.3;   //  Clip the approach speed to this max value (adjust for your robot)
     final static double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    public static final int DESIRED_TAG_ID = 5;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    public static final int DESIRED_TAG_ID = -1;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private static VisionPortal visionPortal;               // Used to manage the video source.
     private static AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
@@ -81,7 +83,7 @@ public class Camera {
                     .setCamera(hardwareMap.get(WebcamName.class, "webcam 1"))
                     .addProcessor(aprilTag)
                     .build();
-                setManualExposure(6, 250, telemetry);  // Use low exposure time to reduce motion blur
+            setManualExposure(6, 250, telemetry);  // Use low exposure time to reduce motion blur
         } else {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(BuiltinCameraDirection.BACK)
@@ -111,58 +113,63 @@ public class Camera {
 
         // Set camera controls unless we are stopping.
 
-            ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
-            if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
-                exposureControl.setMode(ExposureControl.Mode.Manual);
-            }
-            exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
-            GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
-            gainControl.setGain(gain);
+        ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
+        if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
+            exposureControl.setMode(ExposureControl.Mode.Manual);
         }
+        exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
+        GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
+        gainControl.setGain(gain);
+    }
 
-        public static void update(Telemetry telemetry){
+    public static void update(Telemetry telemetry){
 
-            // Step through the list of detected tags and look for a matching tag
-            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-            for (AprilTagDetection detection : currentDetections) {
-                // Look to see if we have size info on this tag.
-                if (detection.metadata != null) {
-                    //  Check to see if we want to track towards this tag.
-                    if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
-                        // Yes, we want to use this tag.
-                        targetFound = true;
-                        desiredTag = detection;
-                        break;  // don't look any further.
-                    } else {
-                        // This tag is in the library, but we do not want to track it right now.
-
-                        targetFound = false;
-                    }
+        // Step through the list of detected tags and look for a matching tag
+        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
+        for (AprilTagDetection detection : currentDetections) {
+            // Look to see if we have size info on this tag.
+            if (detection.metadata != null) {
+                //  Check to see if we want to track towards this tag.
+                if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
+                    // Yes, we want to use this tag.
+                    targetFound = true;
+                    desiredTag = detection;
+                    break;  // don't look any further.
                 } else {
-                    // This tag is NOT in the library, so we don't have enough information to track to it.
+                    // This tag is in the library, but we do not want to track it right now.
 
                     targetFound = false;
                 }
+            } else {
+                // This tag is NOT in the library, so we don't have enough information to track to it.
 
+                targetFound = false;
             }
         }
+    }
 
 
-        public static Pose2d getAprilTagDetectionOmni(){
+    public static Pose2d getAprilTagDetectionOmni(Telemetry telemetry){
         if(targetFound){
-            double  rangeError = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
-            double  headingError = desiredTag.ftcPose.bearing;
-            double  yawError = desiredTag.ftcPose.yaw;
-
+            // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
+            double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+            double  headingError    = desiredTag.ftcPose.bearing;
+            double  yawError        = desiredTag.ftcPose.yaw;
+            telemetry.addData("Range", rangeError);
+            telemetry.addData("Bearing", headingError);
+            telemetry.addData("Yaw",yawError);
+            telemetry.update();
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-          return new Pose2d(drive,strafe,turn);
+            return new Pose2d(drive,strafe,turn);
+
         }else {
-         return new Pose2d(0,0,0);
-        }
+            return new Pose2d(0,0,0);
         }
 
     }
+
+}
 

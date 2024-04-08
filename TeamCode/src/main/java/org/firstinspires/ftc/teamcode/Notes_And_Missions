@@ -1,6 +1,6 @@
 things for the fgc that would help us:
 - do AutoDrive by april tags (for omni drive and tank drive)
-- reprogram the sensors: color, distance(from cm to inch - AutoDrive works with inch).
+- reprogram the color sensor
 - use LEDS! help to see the color of the gamePiece, we can combine the color sensor to it.
 - use the magneticSensor to stop the elevator (in Intake).
 - learn how to us the potentiometer sensor. would help solve the power problem in skywalker ( when we start "nain" , the robot isn't moving but we use a lot of power).
