@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
@@ -20,6 +21,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvWebcam;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -76,14 +79,13 @@ public class Camera {
         // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second
         // Note: Decimation can be changed on-the-fly to adapt during a match.
         aprilTag.setDecimation(2);
-
+        if (USE_WEBCAM)  setManualExposure(6, 250, telemetry);  // Use low exposure time to reduce motion blur
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(hardwareMap.get(WebcamName.class, "webcam 1"))
                     .addProcessor(aprilTag)
                     .build();
-            setManualExposure(6, 250, telemetry);  // Use low exposure time to reduce motion blur
         } else {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(BuiltinCameraDirection.BACK)
@@ -122,7 +124,7 @@ public class Camera {
         gainControl.setGain(gain);
     }
 
-    public static void update(Telemetry telemetry){
+    public static void update(Telemetry telemetry, HardwareMap hardwareMap){
 
         // Step through the list of detected tags and look for a matching tag
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -146,7 +148,6 @@ public class Camera {
                 targetFound = false;
             }
         }
-        FtcDashboard.getInstance().startCameraStream((CameraStreamSource) aprilTag,0);
     }
 
 

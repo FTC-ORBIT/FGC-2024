@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DriveByAprilTags.Camera;
@@ -76,7 +77,8 @@ public class Robot extends LinearOpMode {
 //          DriveTrainTank.operate(-gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
           SubSystemManager.setSubsystemToState(gamepad1 , gamepad2 , telemetry);
            GlobalData.deltaTime = GlobalData.currentTime - GlobalData.lastTime;
-           Camera.update(telemetry);
+           Camera.update(telemetry,hardwareMap);
+           Camera.initAprilTag(hardwareMap, telemetry);
             GlobalData.lastTime = GlobalData.currentTime;
 
             SubSystemManager.printStates(telemetry);
