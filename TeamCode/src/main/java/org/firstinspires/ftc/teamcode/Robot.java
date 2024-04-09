@@ -10,8 +10,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.DriveByAprilTags.Camera;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Vector;
+import org.firstinspires.ftc.teamcode.Sensors.MagneticSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitColorSensor;
+import org.firstinspires.ftc.teamcode.Sensors.OrbitDistanceSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
+import org.firstinspires.ftc.teamcode.Sensors.Potentiometer;
+import org.firstinspires.ftc.teamcode.Sensors.TouchSensor;
 import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
 import org.firstinspires.ftc.teamcode.robotSubSystems.OrbitLED;
@@ -42,6 +46,11 @@ public class Robot extends LinearOpMode {
 //        DriveTrainTank.init(hardwareMap);
         OrbitGyro.init(hardwareMap);
         Camera.initAprilTag(hardwareMap,telemetry);
+//        OrbitColorSensor.init(hardwareMap);
+//        OrbitDistanceSensor.OrbitDistanceSensor(hardwareMap);
+//        MagneticSensor.MagneticSensor(hardwareMap,"magneticSensor");
+//        Potentiometer.Potentiometer(hardwareMap);
+//        TouchSensor.TouchSensor(hardwareMap,"touchSensor");
         OrbitGyro.resetGyroStartTeleop((float) Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.update();
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
@@ -69,6 +78,7 @@ public class Robot extends LinearOpMode {
            GlobalData.deltaTime = GlobalData.currentTime - GlobalData.lastTime;
            Camera.update(telemetry);
             GlobalData.lastTime = GlobalData.currentTime;
+
             SubSystemManager.printStates(telemetry);
         }
     }

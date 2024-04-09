@@ -7,14 +7,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class OrbitDistanceSensor {
 
-  private final DistanceSensor distanceSensor;
+  private static DistanceSensor distanceSensor;
   private float lastDistance;
 
-  public OrbitDistanceSensor(HardwareMap hardwareMap) {
+  public static void OrbitDistanceSensor(HardwareMap hardwareMap) {
     distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
   }
 
-  public float getDistance() {
+  public static float getDistance() {
     return (float) distanceSensor.getDistance(DistanceUnit.INCH);
   }
 

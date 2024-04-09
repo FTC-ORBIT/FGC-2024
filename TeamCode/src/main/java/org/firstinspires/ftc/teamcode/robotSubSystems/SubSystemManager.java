@@ -9,8 +9,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.DriveByAprilTags.Camera;
 import org.firstinspires.ftc.teamcode.OrbitUtils.Delay;
+import org.firstinspires.ftc.teamcode.Sensors.MagneticSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitColorSensor;
+import org.firstinspires.ftc.teamcode.Sensors.OrbitDistanceSensor;
 import org.firstinspires.ftc.teamcode.Sensors.OrbitGyro;
+import org.firstinspires.ftc.teamcode.Sensors.Potentiometer;
+import org.firstinspires.ftc.teamcode.Sensors.TouchSensor;
 import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
 import org.openftc.apriltag.AprilTagDetection;
@@ -91,11 +95,11 @@ public class SubSystemManager {
         telemetry.addData("currentTime", GlobalData.currentTime);
         telemetry.addData("lastTime", GlobalData.lastTime);
         telemetry.addData("deltaTime",GlobalData.deltaTime);
-//        if (Camera.targetFound){
-//            telemetry.addData("true",detection.id);
-//        }else {
-//            telemetry.addData("false", detection.id);
-//        }
+//        telemetry.addData("distance in inch", OrbitDistanceSensor.getDistance());
+//        telemetry.addData("color", OrbitColorSensor.hasGamePiece());
+//        telemetry.addData("magnetic press?", MagneticSensor.getState());
+//        telemetry.addData("touchSensor press?", TouchSensor.getState());
+//        telemetry.addData("potentiometer", Potentiometer.getVolt());
     }
 }
 

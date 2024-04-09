@@ -7,7 +7,7 @@ public class Potentiometer {
 
     private static AnalogInput potentiometer;
 
-    public Potentiometer(HardwareMap hardwareMap){
+    public static void Potentiometer(HardwareMap hardwareMap){
         potentiometer = hardwareMap.get(AnalogInput.class, "potentiometer");
     }
 

@@ -146,6 +146,7 @@ public class Camera {
                 targetFound = false;
             }
         }
+        FtcDashboard.getInstance().startCameraStream((CameraStreamSource) aprilTag,0);
     }
 
 
