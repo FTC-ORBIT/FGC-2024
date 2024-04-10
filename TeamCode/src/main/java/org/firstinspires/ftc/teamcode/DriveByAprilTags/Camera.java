@@ -33,7 +33,7 @@ public class Camera {
     static double  strafe          = 0;        // Desired strafe power/speed (-1 to +1)
     static double  turn            = 0;        // Desired turning power/speed (-1 to +1)
 
-    public final static double DESIRED_DISTANCE = 24; //  this is how close the camera should get to the target (inches)
+    public final static double DESIRED_DISTANCE = 10; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -46,7 +46,7 @@ public class Camera {
     final static double MAX_AUTO_STRAFE= 0.3;   //  Clip the approach speed to this max value (adjust for your robot)
     final static double MAX_AUTO_TURN  = 0.3;   //  Clip the turn speed to this max value (adjust for your robot)
     private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    public static final int DESIRED_TAG_ID = 5;     // Choose the tag you want to approach or set to -1 for ANY tag.
+    public static final int  DESIRED_TAG_ID = 5;     // Choose the tag you want to approach or set to -1 for ANY tag.
     private static VisionPortal visionPortal;               // Used to manage the video source.
     private static AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
@@ -79,7 +79,6 @@ public class Camera {
         // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second
         // Note: Decimation can be changed on-the-fly to adapt during a match.
         aprilTag.setDecimation(2);
-        if (USE_WEBCAM)  setManualExposure(6, 250, telemetry);  // Use low exposure time to reduce motion blur
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
@@ -92,6 +91,7 @@ public class Camera {
                     .addProcessor(aprilTag)
                     .build();
         }
+        if (USE_WEBCAM)  setManualExposure(8 , 250, telemetry);  // Use low exposure time to reduce motion blur
     }
 
     /*
@@ -148,10 +148,11 @@ public class Camera {
                 targetFound = false;
             }
         }
+        FtcDashboard.getInstance().startCameraStream(visionPortal,20);
     }
 
 
-    public static Pose2d getAprilTagDetectionOmni(Telemetry telemetry){
+    public static void getAprilTagDetectionOmni(Telemetry telemetry){
         if(targetFound){
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
@@ -165,12 +166,40 @@ public class Camera {
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
             strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
-            return new Pose2d(drive,strafe,turn);
+          moveRobot(drive,strafe,turn);
 
         }else {
-            return new Pose2d(0,0,0);
+         motors[0].setPower(0);
+         motors[1].setPower(0);
+         motors[2].setPower(0);
+         motors[3].setPower(0);
         }
 
+    }
+    public static void moveRobot(double x, double y, double yaw) {
+        // Calculate wheel powers.
+        double leftFrontPower    =  x -y -yaw;
+        double rightFrontPower   =  x +y +yaw;
+        double leftBackPower     =  x +y -yaw;
+        double rightBackPower    =  x -y +yaw;
+
+        // Normalize wheel powers to be less than 1.0
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        // Send powers to the wheels.
+        motors[0].setPower(leftFrontPower);
+        motors[1].setPower(rightFrontPower);
+        motors[2].setPower(leftBackPower);
+        motors[3].setPower(rightBackPower);
     }
 
 }

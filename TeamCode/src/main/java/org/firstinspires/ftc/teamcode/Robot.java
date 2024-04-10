@@ -78,7 +78,6 @@ public class Robot extends LinearOpMode {
           SubSystemManager.setSubsystemToState(gamepad1 , gamepad2 , telemetry);
            GlobalData.deltaTime = GlobalData.currentTime - GlobalData.lastTime;
            Camera.update(telemetry,hardwareMap);
-           Camera.initAprilTag(hardwareMap, telemetry);
             GlobalData.lastTime = GlobalData.currentTime;
 
             SubSystemManager.printStates(telemetry);
