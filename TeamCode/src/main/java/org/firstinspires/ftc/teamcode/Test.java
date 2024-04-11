@@ -56,7 +56,7 @@ public class Test extends LinearOpMode {
 
         while (!isStopRequested()) {
             if (gamepad1.dpad_down) OrbitGyro.resetGyro();
-            DriveTrainTank.operate(-gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
+            DriveTrainTank.operate(gamepad1.left_stick_y, gamepad1.right_trigger, gamepad1.left_trigger, telemetry, gamepad1);
             Camera.update(telemetry,hardwareMap);
             SubSystemManager.printStates(telemetry);
             }
