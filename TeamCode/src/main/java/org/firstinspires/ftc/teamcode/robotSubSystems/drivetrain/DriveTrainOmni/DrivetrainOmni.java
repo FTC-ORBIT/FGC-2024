@@ -53,12 +53,7 @@ public class DrivetrainOmni {
         }
         else{
             if(gamepad1.left_bumper){
-            Camera.getAprilTagDetectionOmni(telemetry);
-//                drive(velocity_RobotCS_W.add(new Vector((float) -assistAddition.getX(), (float) -assistAddition.getY())), omega - assistAddition.getHeading());
-//                telemetry.addData("x", assistAddition.getX());
-//                telemetry.addData("y", assistAddition.getY());
-//                telemetry.addData("heading",assistAddition.getHeading());
-//                telemetry.update();
+            Camera.getAprilTagDetectionOmni();
             }else{
                 Camera.targetFound = false;
                 drive(velocity_RobotCS_W, omega);

@@ -152,16 +152,12 @@ public class Camera {
     }
 
 
-    public static void getAprilTagDetectionOmni(Telemetry telemetry){
+    public static void getAprilTagDetectionOmni(){
         if(targetFound){
             // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
             double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
             double  headingError    = desiredTag.ftcPose.bearing;
             double  yawError        = desiredTag.ftcPose.yaw;
-            telemetry.addData("Range", rangeError);
-            telemetry.addData("Bearing", headingError);
-            telemetry.addData("Yaw",yawError);
-            telemetry.update();
             // Use the speed and turn "gains" to calculate how we want the robot to move.
             drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
             turn   = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
@@ -201,6 +197,34 @@ public class Camera {
         motors[2].setPower(leftBackPower);
         motors[3].setPower(rightBackPower);
     }
+    public static void getAprilTagDetectionTank(){
+        if(targetFound){
+            double  rangeError   = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+            double  headingError = desiredTag.ftcPose.bearing;
 
+            driveTank = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
+            turnTank  = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
+            moveRobotTank(driveTank,turnTank);
+        }else {
+            motors[0].setPower(0);
+            motors[1].setPower(0);
+        }
+    }
+    public static void moveRobotTank(double x, double yaw) {
+        // Calculate left and right wheel powers.
+        double leftPower    = x - yaw;
+        double rightPower   = x + yaw;
+
+        // Normalize wheel powers to be less than 1.0
+        double max = Math.max(Math.abs(leftPower), Math.abs(rightPower));
+        if (max >1.0) {
+            leftPower /= max;
+            rightPower /= max;
+        }
+
+        // Send powers to the wheels.
+        motors[0].setPower(leftPower);
+        motors[1].setPower(rightPower);
+    }
 }
 
