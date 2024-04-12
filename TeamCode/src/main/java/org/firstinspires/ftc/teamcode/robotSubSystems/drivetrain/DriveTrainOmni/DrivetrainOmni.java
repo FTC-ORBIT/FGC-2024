@@ -41,7 +41,7 @@ public class DrivetrainOmni {
 
     }
 
-    public static void operate(final Vector velocity_W, float omega , Telemetry telemetry, Gamepad gamepad1) {
+    public static void operate(final Vector velocity_W, float omega , Gamepad gamepad1) {
         final float robotAngle = (float) Math.toRadians(OrbitGyro.getAngle());
          Vector velocity_RobotCS_W = velocity_W.rotate(-robotAngle);
 
@@ -60,12 +60,6 @@ public class DrivetrainOmni {
             }
         }
 
-
-
-        telemetry.addData("lf power" , motors[0].getPower());
-        telemetry.addData("rf power" , motors[1].getPower());
-        telemetry.addData("lb power" , motors[2].getPower());
-        telemetry.addData("rb power" , motors[3].getPower());
     }
     // did field centric
 

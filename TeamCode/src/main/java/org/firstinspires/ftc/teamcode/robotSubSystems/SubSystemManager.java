@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robotSubSystems;
 
 import static org.firstinspires.ftc.teamcode.robotData.Constants.MaxHeightForFourbarDelay;
 import static org.firstinspires.ftc.teamcode.robotData.Constants.minHeightToOpenFourbar;
+import static org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni.motors;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Sensors.Potentiometer;
 import org.firstinspires.ftc.teamcode.Sensors.TouchSensor;
 import org.firstinspires.ftc.teamcode.positionTracker.PoseStorage;
 import org.firstinspires.ftc.teamcode.robotData.GlobalData;
+import org.firstinspires.ftc.teamcode.robotSubSystems.drivetrain.DriveTrainOmni.DrivetrainOmni;
 import org.openftc.apriltag.AprilTagDetection;
 
 public class SubSystemManager {
@@ -57,7 +59,7 @@ public class SubSystemManager {
         return stateFromDriver;
     }
 
-    public static void setSubsystemToState(Gamepad gamepad1, Gamepad gamepad2, Telemetry telemetry) {
+    public static void setSubsystemToState(Gamepad gamepad1, Gamepad gamepad2) {
 //        final RobotState wanted = getStateFromWantedAndCurrent(getState(gamepad1));
         wanted = getState(gamepad1);
 
@@ -90,11 +92,22 @@ public class SubSystemManager {
     public static void printStates(Telemetry telemetry) {
         telemetry.addData("Robot current state ", SubSystemManager.wanted);
         telemetry.addData("Robot last state", SubSystemManager.lastState);
+        if (Camera.targetFound){
+            telemetry.addData("tag has found",Camera.desiredTag.id);
+        }else if (Camera.skippingTagTelemetry){
+            telemetry.addData("other tag ha found, skipping",Camera.desiredTag.id);
+        }else {
+            telemetry.addLine("tag not in the lib");
+        }
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.addData("lastAngle", OrbitGyro.lastAngle);
         telemetry.addData("currentTime", GlobalData.currentTime);
         telemetry.addData("lastTime", GlobalData.lastTime);
         telemetry.addData("deltaTime",GlobalData.deltaTime);
+        telemetry.addData("lf power" , motors[0].getPower());
+        telemetry.addData("rf power" , motors[1].getPower());
+        telemetry.addData("lb power" , motors[2].getPower());
+        telemetry.addData("rb power" , motors[3].getPower());
 //        telemetry.addData("distance in inch", OrbitDistanceSensor.getDistance());
 //        telemetry.addData("color", OrbitColorSensor.hasGamePiece());
 //        telemetry.addData("magnetic press?", MagneticSensor.getState());

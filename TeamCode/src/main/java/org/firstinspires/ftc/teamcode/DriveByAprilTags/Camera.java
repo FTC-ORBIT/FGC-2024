@@ -52,6 +52,7 @@ public class Camera {
     public static AprilTagDetection desiredTag = null; // Used to hold the data for a detected AprilTag
     public static double driveTank;
     public static double turnTank;
+    public static boolean skippingTagTelemetry = false;
 
 
     public static void initAprilTag(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -124,7 +125,7 @@ public class Camera {
         gainControl.setGain(gain);
     }
 
-    public static void update(Telemetry telemetry, HardwareMap hardwareMap){
+    public static void update(){
 
         // Step through the list of detected tags and look for a matching tag
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -134,17 +135,19 @@ public class Camera {
                 //  Check to see if we want to track towards this tag.
                 if ((DESIRED_TAG_ID < 0) || (detection.id == DESIRED_TAG_ID)) {
                     // Yes, we want to use this tag.
+                    skippingTagTelemetry = false;
                     targetFound = true;
                     desiredTag = detection;
                     break;  // don't look any further.
                 } else {
                     // This tag is in the library, but we do not want to track it right now.
-
+                    desiredTag = detection;
+                    skippingTagTelemetry = true;
                     targetFound = false;
                 }
             } else {
                 // This tag is NOT in the library, so we don't have enough information to track to it.
-
+                skippingTagTelemetry = false;
                 targetFound = false;
             }
         }
