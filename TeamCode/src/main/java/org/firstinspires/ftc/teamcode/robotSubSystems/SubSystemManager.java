@@ -99,6 +99,8 @@ public class SubSystemManager {
         }else {
             telemetry.addLine("tag not in the lib");
         }
+//        telemetry.addData("X",PoseStorage.currentPose.getX());
+//        telemetry.addData("Y",PoseStorage.currentPose.getY());
         telemetry.addData("gyro", Math.toDegrees(PoseStorage.currentPose.getHeading()));
         telemetry.addData("lastAngle", OrbitGyro.lastAngle);
         telemetry.addData("currentTime", GlobalData.currentTime);
