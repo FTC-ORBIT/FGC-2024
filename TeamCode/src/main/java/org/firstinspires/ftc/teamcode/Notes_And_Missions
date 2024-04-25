@@ -1,5 +1,7 @@
 things for the fgc that would help us:
-- do AutoDrive by april tags (for omni drive and tank drive)
+- Complete AutoDrive by april tags for Tank driveTrain
+- upgrade the Auto drive = make skywalker drop pixel after the drive.
+- check and upgrade the Orbit_Auto_Maker
 - reprogram the color sensor
 - use LEDS! help to see the color of the gamePiece, we can combine the color sensor to it.
 - use the magneticSensor to stop the elevator (in Intake).
