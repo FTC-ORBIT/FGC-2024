@@ -9,6 +9,7 @@ things for the fgc that would help us:
 - learn how to us the potentiometer sensor. would help solve the power problem in skywalker ( when we start "nain" , the robot isn't moving but we use a lot of power).
 - yellow pixel on the board- there is a chance we will need to know how to "locate" objects to make the drive easier.
 - More organized telemetry - to print and add data in on place (in SubSystemManger.printStates).
+- solve the elevator problem (in skywalker), when we switch Autonomous to teleop, the elevator goes up and reset encoders.
 
 
 
